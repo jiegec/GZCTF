@@ -356,6 +356,9 @@
   <data name="ContainerManager_PullContainerImage" xml:space="preserve">
     <value>拉取容器镜像 {0}</value>
   </data>
+  <data name="ContainerManager_PullContainerImageFailed" xml:space="preserve">
+    <value>拉取容器镜像 {0} 失败</value>
+  </data>
   <data name="ContainerManager_ServiceCreationFailed" xml:space="preserve">
     <value>服务 {0} 创建失败</value>
   </data>

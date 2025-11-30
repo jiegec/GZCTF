@@ -356,6 +356,9 @@
   <data name="ContainerManager_PullContainerImage" xml:space="preserve">
     <value>Pull container image {0}</value>
   </data>
+  <data name="ContainerManager_PullContainerImageFailed" xml:space="preserve">
+    <value>Failed to pull container image {0}</value>
+  </data>
   <data name="ContainerManager_ServiceCreationFailed" xml:space="preserve">
     <value>Service {0} failed to create</value>
   </data>

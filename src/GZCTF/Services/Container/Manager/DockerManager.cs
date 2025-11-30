@@ -122,14 +122,24 @@ public class DockerManager : IContainerManager
 
             AuthConfig? auth = _meta.AuthConfigs.GetForImage(config.Image);
 
-            // pull the image and retry
-            await _client.Images.CreateImageAsync(new() { FromImage = config.Image }, auth,
-                new Progress<JSONMessage>(msg =>
-                {
-                    Console.WriteLine($@"{msg.Status}|{msg.ProgressMessage}|{msg.ErrorMessage}");
-                }), token);
+            try
+            {
+                // pull the image and retry
+                await _client.Images.CreateImageAsync(new() { FromImage = config.Image }, auth,
+                    new Progress<JSONMessage>(msg =>
+                    {
+                        Console.WriteLine($@"{msg.Status}|{msg.ProgressMessage}|{msg.ErrorMessage}");
+                    }), token);
 
-            goto CreateDockerContainer;
+                goto CreateDockerContainer;
+            }
+            catch (Exception e)
+            {
+                _logger.LogErrorMessage(e,
+                    StaticLocalizer[nameof(Resources.Program.ContainerManager_PullContainerImageFailed),
+                        parameters.Name]);
+                return null;
+            }
         }
         catch (DockerApiException e)
         {
