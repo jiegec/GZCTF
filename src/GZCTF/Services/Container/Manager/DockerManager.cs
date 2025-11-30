@@ -93,11 +93,19 @@ public class DockerManager : IContainerManager
                 Program.StaticLocalizer[nameof(Resources.Program.ContainerManager_PullContainerImage), config.Image],
                 TaskStatus.Pending, LogLevel.Information);
 
-            await _client.Images.CreateImageAsync(new() { FromImage = config.Image }, _meta.Auth,
-                new Progress<JSONMessage>(msg =>
-                {
-                    Console.WriteLine($@"{msg.Status}|{msg.ProgressMessage}|{msg.ErrorMessage}");
-                }), token);
+            try
+            {
+                await _client.Images.CreateImageAsync(new() { FromImage = config.Image }, _meta.Auth,
+                    new Progress<JSONMessage>(msg =>
+                    {
+                        Console.WriteLine($@"{msg.Status}|{msg.ProgressMessage}|{msg.ErrorMessage}");
+                    }), token);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"容器 {parameters.Name} 拉取失败");
+                return null;
+            }
         }
         catch (Exception e)
         {
