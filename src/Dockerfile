@@ -11,7 +11,7 @@ RUN apt update && apt install -y wget gnupg2 libpcap0.8 && \
     wget -qO- https://deb.nodesource.com/setup_20.x | bash - && \
     apt install -y build-essential nodejs
 
-RUN npm i -g pnpm
+RUN npm i -g "pnpm@<9"
 
 COPY ["GZCTF", "/src/GZCTF/"]
 WORKDIR "/src/GZCTF"
@@ -26,6 +26,7 @@ WORKDIR /app
 EXPOSE 80
 
 COPY --from=publish /app/publish .
+RUN sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
 RUN apt update && apt install -y wget libpcap0.8 --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 HEALTHCHECK --interval=5m --timeout=3s --start-period=10s --retries=1 \
