@@ -7,11 +7,11 @@ ENV VITE_APP_BUILD_TIMESTAMP=$TIMESTAMP
 ENV VITE_APP_GIT_SHA=$GIT_SHA
 ENV VITE_APP_GIT_NAME=$GIT_NAME
 
-RUN apt update && apt install -y wget gnupg2 libpcap0.8 && \
+RUN apt update && apt install -y wget gnupg2 libpcap0.8 pkg-config && \
     wget -qO- https://deb.nodesource.com/setup_20.x | bash - && \
     apt install -y build-essential nodejs
 
-RUN npm i -g pnpm
+RUN npm i -g "pnpm@<9"
 
 COPY [".", "/src"]
 
